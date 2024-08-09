@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+option go_package = "protocol-buffer-go/protogen";
+
+message Address {
+  string street_name = 1 [json_name="street_name"];
+  uint32 house_number = 2 [json_name="house_number"];
+  string village = 3;
+  string district = 4;
+  string city = 5;
+  uint32 postal_code = 6 [json_name="postal_code"];
+  string province = 7;
+  string country = 8;
+}

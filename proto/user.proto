@@ -1,0 +1,65 @@
+syntax = "proto3";
+
+import "proto/address.proto";
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/any.proto";
+
+option go_package = "protocol-buffer-go/protogen";
+
+message User {
+  uint32 id = 1;
+  string full_name = 2 [json_name="full_name"];
+  string phone_number = 3 [json_name="phone_number"];
+  string email = 4;
+
+  oneof Gender {
+    bool Man = 13 [json_name="man"];
+    bool Woman = 14 [json_name="woman"];
+  }
+
+  Address address = 15;
+
+  message Notification {
+    uint32 id = 1;
+    uint32 user_id = 2 [json_name="user_id"];
+    string title = 3;
+
+    oneof content {
+      EmailContent email =4;
+      SMSContent sms =5;
+      PushContent push =6;
+    }
+    enum Status {
+      PENDING = 0;
+      SEND = 1;
+      FAILED = 2;
+    }
+    Status STATUS = 7 [json_name="status"];
+    map<string, string> attributes = 8;
+    google.protobuf.Timestamp send_at = 9 [json_name="send_at"];
+    google.protobuf.Any details = 10;
+  }
+
+  Notification notification = 16;
+  google.protobuf.Timestamp created_at = 17 [json_name="created_at"];
+  google.protobuf.Timestamp updated_at = 18 [json_name="updated_at"];
+}
+
+
+message EmailContent {
+  string subject = 1;
+  string body = 2;
+  string from = 3;
+  repeated string cc =4;
+}
+
+message SMSContent {
+  string message = 1;
+  string sender_number = 2 [json_name="sender_number"];
+}
+
+message PushContent {
+  string body = 1;
+  string icon = 2;
+  map<string, string> data = 3;
+}

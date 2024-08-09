@@ -1,0 +1,7 @@
+syntax = "proto3";
+
+option go_package = "protocol-buffer-go/protogen";
+
+message Detail {
+  string version = 1;
+}
